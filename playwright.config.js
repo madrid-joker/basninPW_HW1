@@ -18,7 +18,7 @@ module.exports = defineConfig({
   },
 
 
-  /* Configure projects for major browsers */
+  /* Configure projects for major browsers 
   projects: [
     {
       name: 'chromium',
@@ -54,7 +54,7 @@ module.exports = defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ],
+  //],
 
 });
 
