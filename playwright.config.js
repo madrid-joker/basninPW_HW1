@@ -1,4 +1,5 @@
 const { defineConfig, devices } = require('@playwright/test');
+const { baseUrls } = require('./test-data/baseUrls');
 
 module.exports = defineConfig({
   testDir: './tests',
@@ -7,54 +8,32 @@ module.exports = defineConfig({
 
   use: {
     browserName: 'chromium',
-    headless: true,
-    //screenshot: 'only-on-failure',
-    //trace: 'retain-on-failure'
+    headless: !!process.env.CI,
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+    baseURL: baseUrls.main,
   },
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  timeout: 70 * 1000,
+  timeout: 70 * 1000, // this is a correct way to set time, nice
   expect: {
-    timeout: 5000
+    timeout: 5000,
   },
 
-
-  /* Configure projects for major browsers 
+  /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'mobile',
+      use: {
+        ...devices['iPhone 13 Pro Max'],
+      },
     },
-
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'desktop',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 },
+      },
     },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  //],
-
+  ],
 });
-
